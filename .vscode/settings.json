@@ -5,5 +5,8 @@
             "binaryPath": "c:\\Users\\Pontu\\_Dev\\Nackademin\\C++\\AlgorithmExam\\main.exe",
             "binaryArgs": []
         }
-    ]
+    ],
+    "files.associations": {
+        "iostream": "cpp"
+    }
 }
