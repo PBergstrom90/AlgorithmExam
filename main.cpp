@@ -46,7 +46,7 @@ time_t CreateTime(int year, int month, int day, int hour, int minute, int second
 int main()
 {
 	vector<SensorData> sensorData;
-	// Datahandling
+	// Initialize the vector with random data, then sort it.
 	FillData(sensorData);
 	SortAllData(sensorData);
  
@@ -70,8 +70,7 @@ void SortAllData(vector<SensorData> &v){
 void CheckSensorData(vector<SensorData> &v) {
     int count = 0;
     time_t targetDate = CreateTime(2012, 1, 2, 0, 0, 0);
-
-    // Format the target date for better readability
+    // Format the target date for better readability.
     struct tm* targetDateStruct = localtime(&targetDate);
     stringstream formattedTargetDate;
     formattedTargetDate << std::put_time(targetDateStruct, "%Y-%m-%d");
@@ -79,9 +78,9 @@ void CheckSensorData(vector<SensorData> &v) {
     for(auto& data : v) {
         if(data.GetSensorType() == SensorType::Altitude &&
            data.GetTime() >= targetDate &&
-		   // Check if the timestamp falls within the target date
+		   // Check if the timestamp falls within the target date range.
            data.GetTime() < targetDate + 24 * 3600) {
-            // For printout:
+            // DEBUG-Printout:
 			// cout << "Altitude: " << data.GetValue() << " meters." << endl;
             count++;
         }
@@ -98,6 +97,8 @@ void CheckTopSpeed(vector<SensorData> &v){
 		if(data.GetSensorType() == SensorType::SpeedInKmh) {
 			count++;
 			if(data.GetValue() > 99.9f) {
+				// DEBUG-Printout
+				// cout << "Max Speed: " << data.GetValue() << " km/h" << endl;
 				aboveSpeedLimit++;
 			}
 		}
@@ -108,11 +109,12 @@ void CheckTopSpeed(vector<SensorData> &v){
 
 void AdjustFuelConsumption(vector<SensorData> &v){
 	int count = 0;
-	int maxEntries = 0;
 	bool success = false;
 
 	for(auto& data : v) {
 		if(data.GetSensorType() == SensorType::FuelConsumption) {
+			// DEBUG-Printout
+			// cout << "Fuel Consumption: " << data.GetValue() << endl;
 			count++;	
 		}
 	}
@@ -121,6 +123,8 @@ void AdjustFuelConsumption(vector<SensorData> &v){
 	for(auto& data : v) {
 		if(data.GetSensorType() == SensorType::FuelConsumption) {
 			data.SetValue(data.GetValue() * 1.75f);
+			// DEBUG-Printout
+			// cout << "Fuel Consumption: " << data.GetValue() << endl;
 			success = true;	
 		}
 	}
