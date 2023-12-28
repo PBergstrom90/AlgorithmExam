@@ -10,12 +10,13 @@ This C++ program analyzes sensor data related to altitude, speed, and fuel consu
 The program utilizes a SensorData class to store information about sensor readings, including altitude, speed, and fuel consumption. It generates random data for analysis and performs operations on the dataset.
 
 ## Prerequisites
-C++ Compiler
-Standard Template Library (STL)
-iostream, string, vector, algorithm, ctime, and cstdlib headers
+- C++ Compiler
+- Standard Template Library (STL)
+- iostream, string, vector, algorithm, ctime, and cstdlib headers
 
 ## Functions
-FillData
+
+### FillData
 Generates random sensor data for analysis.
 
 ### SortAllData
