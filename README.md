@@ -1,5 +1,8 @@
 # Algorithm Exam
 
+## Author
+- Pontus Bergström
+
 # Sensor Data Analysis
 This C++ program analyzes sensor data related to altitude, speed, and fuel consumption. It performs various operations on the data, such as sorting, checking altitude measurements, identifying top speed occurrences, and adjusting fuel consumption.
 
@@ -26,6 +29,3 @@ Identifies entries of speed data above a specified limit.
 
 ### AdjustFuelConsumption
 Increases fuel consumption values by 75%.
-
-## Author
-- Pontus Bergström
