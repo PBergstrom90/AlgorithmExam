@@ -35,7 +35,6 @@ public:
 };
 
 void FillData(vector<SensorData> &v);
-void SortAllData(vector<SensorData> &v);
 void PrintAllData(vector<SensorData> &v);
 void CheckSensorData(vector<SensorData> &v);
 void CheckTopSpeed(vector<SensorData> &v);
@@ -46,9 +45,8 @@ time_t CreateTime(int year, int month, int day, int hour, int minute, int second
 int main()
 {
 	vector<SensorData> sensorData;
-	// Initialize the vector with random data, then sort it.
+	// Initialize the vector with random data.
 	FillData(sensorData);
-	SortAllData(sensorData);
  
 	cout << "\nPART 1 - Check sensor data for altitude measurements: \n" << endl;
  	CheckSensorData(sensorData);	
@@ -62,19 +60,14 @@ int main()
     return 0;
 }
 
-void SortAllData(vector<SensorData> &v){
-	// Sort by timestamp:
-	sort(v.begin(), v.end(), [](SensorData& a, SensorData& b) { return a.GetTime() < b.GetTime(); });
-}
-
 void CheckSensorData(vector<SensorData> &v) {
     time_t targetDate = CreateTime(2012, 1, 2, 0, 0, 0);
     // Format the target date for better readability.
     struct tm* targetDateStruct = localtime(&targetDate);
     stringstream formattedTargetDate;
-    formattedTargetDate << std::put_time(targetDateStruct, "%Y-%m-%d");
+    formattedTargetDate << put_time(targetDateStruct, "%Y-%m-%d");
 
-	int count = std::count_if(v.begin(), v.end(), [targetDate](SensorData& data) {
+	int count = count_if(v.begin(), v.end(), [targetDate](SensorData& data) {
 		return (data.GetSensorType() == SensorType::Altitude && 
 			data.GetTime() >= targetDate && 
 			data.GetTime() < targetDate + 24 * 3600);
@@ -84,10 +77,10 @@ void CheckSensorData(vector<SensorData> &v) {
 }
 
 void CheckTopSpeed(vector<SensorData> &v){
-	int count = std::count_if(v.begin(), v.end(), [](SensorData& data) { 
+	int count = count_if(v.begin(), v.end(), [](SensorData& data) { 
 		return data.GetSensorType() == SensorType::SpeedInKmh; 
 		});
-	int aboveSpeedLimit = std::count_if(v.begin(), v.end(), [](SensorData& data) 
+	int aboveSpeedLimit = count_if(v.begin(), v.end(), [](SensorData& data) 
 	{ return data.GetSensorType() == SensorType::SpeedInKmh && data.GetValue() > 99.9f; 
 	});
 	cout << "Found " << count << " entries of 'Speed in Kilometers'." << endl;
@@ -96,12 +89,12 @@ void CheckTopSpeed(vector<SensorData> &v){
 
 void AdjustFuelConsumption(vector<SensorData> &v){
 	bool success = false;
-	int count = std::count_if(v.begin(), v.end(), [](SensorData& data) { 
+	int count = count_if(v.begin(), v.end(), [](SensorData& data) { 
 		return data.GetSensorType() == SensorType::FuelConsumption; 
 		});
 	cout << "Found " << count << " entries of 'Fuel Consumption'." << endl;	
 	cout << "\nAdjusting fuel consumption to increase by 75%." << endl;
-	std::for_each(v.begin(), v.end(), [&success](SensorData& data) {
+	for_each(v.begin(), v.end(), [&success](SensorData& data) {
 		if(data.GetSensorType() == SensorType::FuelConsumption) {
 			data.SetValue(data.GetValue() * 1.75f);
 			// DEBUG-Printout
