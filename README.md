@@ -3,11 +3,6 @@
 # Sensor Data Analysis
 This C++ program analyzes sensor data related to altitude, speed, and fuel consumption. It performs various operations on the data, such as sorting, checking altitude measurements, identifying top speed occurrences, and adjusting fuel consumption.
 
-# Table of Contents
-## Overview
-## Prerequisites
-## Functions
-
 # Overview
 The program utilizes a SensorData class to store information about sensor readings, including altitude, speed, and fuel consumption. It generates random data for analysis and performs operations on the dataset.
 
