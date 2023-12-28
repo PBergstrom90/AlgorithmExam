@@ -35,7 +35,6 @@ public:
 };
 
 void FillData(vector<SensorData> &v);
-void PrintAllData(vector<SensorData> &v);
 void CheckSensorData(vector<SensorData> &v);
 void CheckTopSpeed(vector<SensorData> &v);
 void AdjustFuelConsumption(vector<SensorData> &v);
