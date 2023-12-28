@@ -5,8 +5,8 @@
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
+// For formatting the date.
 #include <iomanip>
-
 using namespace std;
 
 enum class SensorType
