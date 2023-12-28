@@ -102,7 +102,7 @@ void AdjustFuelConsumption(vector<SensorData> &v){
 			success = true;	
 		}
 	});
-	if(success = true){
+	if(success == true){
 		cout << "Adjusted " << count << " entries of 'Fuel Consumption' successfully." << endl;
 	} else {
 		cout << "Failed to adjust 'Fuel Consumption'." << endl;
