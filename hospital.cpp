@@ -12,8 +12,13 @@
 
 void HospitalSim() {
     std::queue<Patient> patientQueue;
+    int patientCount = 0;
     bool isRunning = true;
-    auto timeNow = std::chrono::system_clock::now();
+    // Set local time.
+    std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
+    std::time_t now_c = std::chrono::system_clock::to_time_t(timeNow);
+    std::tm local_tm = *std::localtime(&now_c);
+    
     while (isRunning) {
         std::cout << "\n--- WELCOME TO THE HOSPITAL ---" << std::endl;
         std::cout << "1. Enter a patient to the queue." << std::endl;
@@ -29,15 +34,18 @@ void HospitalSim() {
             std::cin.ignore();
             continue;
         }
-        std::string name;
-        auto timeNow = std::chrono::system_clock::now();    
+        std::string name;   
         switch (choice) {
         case 1:
             std::cout << "\nEnter the name of the patient: ";
             std::cin >> name;
+            // Update local time.
             timeNow = std::chrono::system_clock::now();
-            std::cout << "Patient " << name << " added to the queue at: " << timeNow << std::endl;
-            patientQueue.push(Patient(name, patientQueue.size() + 1));
+            now_c = std::chrono::system_clock::to_time_t(timeNow);
+            local_tm = *std::localtime(&now_c);
+            std::cout << "Patient " << name << " added to the queue at: " << std::put_time(&local_tm, "%Y-%m-%d %H:%M:%S") << std::endl;
+            patientQueue.push(Patient(name, patientCount + 1));
+            patientCount++;
             break;
         case 2: 
             if (!patientQueue.empty()) {
