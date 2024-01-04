@@ -76,6 +76,9 @@
         "xutility": "cpp",
         "chrono": "cpp",
         "ratio": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "forward_list": "cpp",
+        "fstream": "cpp",
+        "ranges": "cpp"
     }
 }

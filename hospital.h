@@ -11,7 +11,7 @@
 class Patient {
 public:
     Patient(std::string name, int queueNumber);
-      std::string getName() {
+    std::string getName() {
         return name;
     }
     int getQueueNumber() {
