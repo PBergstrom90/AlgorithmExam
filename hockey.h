@@ -24,11 +24,12 @@ class HockeyPlayer {
         return teamName;
     }
 
+    // For reading from file.
     friend std::istream& operator>>(std::istream& is, HockeyPlayer& player) {
         is >> player.id >> player.name >> player.jersey >> player.teamName;
         return is;
     }
-
+    // For writing to file.
     friend std::ostream& operator<<(std::ostream& os, const HockeyPlayer& player) {
         os << player.id << ' ' << player.name << ' ' << player.jersey << ' ' << player.teamName;
         return os;
@@ -96,7 +97,6 @@ class LRUCache {
     }
 }
 
-
     private:
         int capacity;
         std::vector<HockeyPlayer> cache;
@@ -146,13 +146,14 @@ void writeToFile() {
     }
 }
 
-
     void readFromFile() {
         std::ifstream file(fileName);
         if (file.is_open()) {
             HockeyPlayer player;
             while (file >> player) {
                 playerStorage.push_back(player);
+                // Clear the player object to avoid carrying over values
+                player = HockeyPlayer();
             }
             file.close();
             std::cout << "Players read from file: " << fileName << std::endl;
@@ -161,5 +162,4 @@ void writeToFile() {
         }
     }
 };
-
 #endif // __HOCKEY_H
