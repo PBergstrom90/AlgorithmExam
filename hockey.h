@@ -43,11 +43,63 @@ class HockeyPlayer {
 
 class LRUCache {
     public:
-        LRUCache(int capacity) : capacity(capacity) {
+        LRUCache(int capacity, std::vector<HockeyPlayer> cache) : capacity(capacity), cache(cache){
         };
+
+    bool isPlayerInCache(int playerId) {
+        return std::any_of(cache.begin(), cache.end(), [playerId](HockeyPlayer& player) {
+            return player.getId() == playerId;
+        });
+    }
+
+    HockeyPlayer getPlayer(int id) {
+        auto it = std::find_if(cache.begin(), cache.end(), [id](HockeyPlayer& player) {
+            return player.getId() == id;
+        });
+        if (it != cache.end()) {
+            HockeyPlayer player = *it;
+            cache.erase(it);
+            cache.push_back(player);
+            return player;
+        } else {
+            return HockeyPlayer(0, " ", 0, " ");
+        }
+    }
+
+    void printCache() {
+    for (auto& player : cache) {
+    std::cout << "ID: " << player.getId() << '\n'
+            << "Name: " << player.getName() << '\n'
+            << "Jersey: " << player.getJersey() << '\n'
+            << "Team: " << player.getTeamName() << '\n'
+            << "--------------------------\n" << std::endl;
+        }
+    }
+
+    void addPlayer(HockeyPlayer& player) {
+    auto it = std::find_if(cache.begin(), cache.end(), [&player](HockeyPlayer& p) {
+        return p.getId() == player.getId();
+    });
+    if (it != cache.end()) {
+        // If Player is already in the cache, move it to the most recently used position
+        cache.erase(it);
+        cache.push_back(player);
+    } else {
+        // Player is not in the cache, add it
+        if (cache.size() >= capacity) {
+            // If the cache is full, remove the least recently used player
+            std::cout << "Removing least recently used player: " << cache.front().getId() << std::endl;
+            cache.erase(cache.begin());
+        }
+        cache.push_back(player);
+        std::cout << "Hockeyplayer added to cache: " << player.getId() << std::endl;
+    }
+}
+
 
     private:
         int capacity;
+        std::vector<HockeyPlayer> cache;
 };
 
 class FileStorage {
@@ -59,6 +111,22 @@ public:
 
     void addPlayer(const HockeyPlayer& player) {
         playerStorage.push_back(player);
+    }
+
+HockeyPlayer getPlayer(int id) {
+    auto it = std::find_if(playerStorage.begin(), playerStorage.end(), [id](HockeyPlayer& player) {
+       return player.getId() == id;
+    });
+
+    if (it != playerStorage.end()) {
+        return *it;
+    } else {
+        return HockeyPlayer();
+    }
+ }
+
+    std::vector<HockeyPlayer>& getPlayerStorage() {
+        return playerStorage;
     }
 
 void writeToFile() {

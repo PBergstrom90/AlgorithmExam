@@ -62,10 +62,10 @@ int main()
 	AdjustFuelConsumption(sensorData);
 
 	// Hospital - QUEUE
-	HospitalSim();
+	// HospitalSim();
 
 	// ATM - MAP
-	AtmSim();
+	// AtmSim();
 
 	// HockeyPlayer - LRU-CACHE
 	HockeyChacher();

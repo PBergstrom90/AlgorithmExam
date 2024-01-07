@@ -80,5 +80,7 @@
         "forward_list": "cpp",
         "fstream": "cpp",
         "ranges": "cpp"
-    }
+    },
+    "makefile.makefilePath": "",
+    "makefile.makePath": "C:\\\\msys64\\\\mingw64\\\\bin\\\\mingw32-make"
 }
