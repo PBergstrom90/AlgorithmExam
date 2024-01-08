@@ -8,9 +8,9 @@
 
 void HockeyChacher(){
     bool isRunning = true;
-    std::cout << "\nHockey LRU-Cache" << std::endl;
+    std::cout << "\n--- Hockey LRU-Cache ---\n" << std::endl;
     std::random_device rd;
-    int amountOfPlayers = 10000;
+    int amountOfPlayers = 1000000;
     LRUCache cache(10, std::vector<HockeyPlayer>());
     FileStorage fileStorage("hockeyplayers.txt");
 
@@ -23,13 +23,12 @@ void HockeyChacher(){
         fileStorage.addPlayer(HockeyPlayer(i, "Player" + std::to_string(i), randomJerseyNumber, "Team" + std::to_string(randomTeamNumber)));
     } 
 
-    // Write players to file and read them back to the cache.
+    // Write players to text file.
     fileStorage.writeToFile();
-    fileStorage.readFromFile();
-
+    
     // Fill cache with 10 players from file.
     for (int i = 1; i <= 10; i++) {
-        HockeyPlayer player = fileStorage.getPlayer(i);
+        HockeyPlayer player = fileStorage.getPlayerFromTextFile(i);
         if (!cache.isPlayerInCache(player.getId())) {
             cache.addPlayer(player);
         }
@@ -37,18 +36,18 @@ void HockeyChacher(){
 
     // Allow user to search for player ID from cache or file.
     while (isRunning){
-        std::cout << "LRU-Cache printout: " << "\n" << std::endl;
+        std::cout << "\nLRU-Cache printout: " << "\n" << std::endl;
         cache.printCache();
-        int id = 0;
+        int searchId = 0;
         std::cout << "\nPlease enter a player ID: ";
-        std::cin >> id;
-        HockeyPlayer player = cache.getPlayer(id);
+        std::cin >> searchId;
+        HockeyPlayer player = cache.getPlayerFromCache(searchId);
         if (player.getId() != 0) {
             std::cout << "Player ID found in cache: " << player.getId() << std::endl;
         } else {
             std::cout << "Player not found in cache, searching in file..." << std::endl;
-            player = fileStorage.getPlayer(id);
-            if (player.getId() != 0) {
+            player = fileStorage.getPlayerFromTextFile(searchId);
+            if (player.getId() > 0 && player.getId() <= amountOfPlayers) {
                 std::cout << "Player ID found in file: " << player.getId() << std::endl;
                 cache.addPlayer(player);
             } else {
@@ -58,8 +57,11 @@ void HockeyChacher(){
         std::cout << "Try again? (y/n): ";
         char answer;
         std::cin >> answer;
-        if (answer == 'n' || answer == 'N') {
+        if (answer == 'y' || answer == 'Y') {
+            continue;
+        } else {
+            std::cout << "Program closing... " << std::endl;
             isRunning = false;
-        }  
+        }
     }
 };

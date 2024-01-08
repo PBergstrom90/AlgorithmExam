@@ -4,12 +4,13 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 class HockeyPlayer {
     public:
-        HockeyPlayer() {
-        };
-        HockeyPlayer(int id, std::string name, int jersey, std::string teamName) : id(id), name(name), jersey(jersey), teamName(teamName) {
+    HockeyPlayer(int id, std::string name, int jersey, std::string teamName) : id(id), name(name), jersey(jersey), teamName(teamName) {
+        }
+    HockeyPlayer() : id(0), name("NULL"), jersey(0), teamName("NULL") {
         };
     int getId() {
         return id;
@@ -53,7 +54,7 @@ class LRUCache {
         });
     }
 
-    HockeyPlayer getPlayer(int id) {
+    HockeyPlayer getPlayerFromCache(int id) {
         auto it = std::find_if(cache.begin(), cache.end(), [id](HockeyPlayer& player) {
             return player.getId() == id;
         });
@@ -63,7 +64,7 @@ class LRUCache {
             cache.push_back(player);
             return player;
         } else {
-            return HockeyPlayer(0, " ", 0, " ");
+            return HockeyPlayer();
         }
     }
 
@@ -103,8 +104,6 @@ class LRUCache {
 };
 
 class FileStorage {
-    std::vector<HockeyPlayer> playerStorage;
-    std::string fileName;
 
 public:
     FileStorage(std::string fileName) : fileName(fileName) {}
@@ -113,53 +112,46 @@ public:
         playerStorage.push_back(player);
     }
 
-HockeyPlayer getPlayer(int id) {
-    auto it = std::find_if(playerStorage.begin(), playerStorage.end(), [id](HockeyPlayer& player) {
-       return player.getId() == id;
-    });
-
-    if (it != playerStorage.end()) {
-        return *it;
+ HockeyPlayer getPlayerFromTextFile(int id) {
+    std::ifstream file(fileName);
+    if (file.is_open()) {
+        HockeyPlayer player;
+        while (file >> player) {
+            if (player.getId() == id) {
+                return player;
+            }
+        }
+        file.close();
     } else {
-        return HockeyPlayer();
+        std::cout << "Unable to open file: " << fileName << std::endl;
     }
+    return HockeyPlayer();
  }
 
-    std::vector<HockeyPlayer>& getPlayerStorage() {
-        return playerStorage;
+std::vector<HockeyPlayer>& getPlayerStorage() {
+    return playerStorage;
     }
 
 void writeToFile() {
     std::ofstream file(fileName);
     if (file.is_open()) {
         for (auto& player : playerStorage) {
-            file << "ID: " << player.getId() << '\n'
-                 << "Name: " << player.getName() << '\n'
-                 << "Jersey: " << player.getJersey() << '\n'
-                 << "Team: " << player.getTeamName() << '\n'
-                 << "--------------------------\n";
+            file << player.getId() << ' '
+                 << player.getName() << ' '
+                 << player.getJersey() << ' '
+                 << player.getTeamName() << '\n';
         }
         file.close();
         std::cout << "Players written to file: " << fileName << std::endl;
     } else {
-        std::cerr << "Unable to open file: " << fileName << std::endl;
+        std::cout << "Unable to open file: " << fileName << std::endl;
     }
 }
 
-    void readFromFile() {
-        std::ifstream file(fileName);
-        if (file.is_open()) {
-            HockeyPlayer player;
-            while (file >> player) {
-                playerStorage.push_back(player);
-                // Clear the player object to avoid carrying over values
-                player = HockeyPlayer();
-            }
-            file.close();
-            std::cout << "Players read from file: " << fileName << std::endl;
-        } else {
-            std::cerr << "Unable to open file: " << fileName << std::endl;
-        }
-    }
+private: 
+
+std::vector<HockeyPlayer> playerStorage;
+std::string fileName;
+
 };
 #endif // __HOCKEY_H
