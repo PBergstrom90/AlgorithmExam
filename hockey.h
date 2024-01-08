@@ -25,11 +25,12 @@ class HockeyPlayer {
         return teamName;
     }
 
-    // For reading from file.
+     // For reading from file.
     friend std::istream& operator>>(std::istream& is, HockeyPlayer& player) {
         is >> player.id >> player.name >> player.jersey >> player.teamName;
         return is;
     }
+
     // For writing to file.
     friend std::ostream& operator<<(std::ostream& os, const HockeyPlayer& player) {
         os << player.id << ' ' << player.name << ' ' << player.jersey << ' ' << player.teamName;
@@ -97,27 +98,26 @@ class LRUCache {
         std::cout << "Hockeyplayer added to cache: " << player.getId() << std::endl;
     }
 }
-
     private:
         int capacity;
         std::vector<HockeyPlayer> cache;
 };
 
 class FileStorage {
-
-public:
-    FileStorage(std::string fileName) : fileName(fileName) {}
+    public:
+        FileStorage(std::string fileName) : fileName(fileName) {}
 
     void addPlayer(const HockeyPlayer& player) {
         playerStorage.push_back(player);
     }
 
- HockeyPlayer getPlayerFromTextFile(int id) {
+    HockeyPlayer getPlayerFromTextFile(int id) {
     std::ifstream file(fileName);
     if (file.is_open()) {
         HockeyPlayer player;
         while (file >> player) {
             if (player.getId() == id) {
+                file.close(); // Close the file once the player is found.
                 return player;
             }
         }
@@ -125,33 +125,26 @@ public:
     } else {
         std::cout << "Unable to open file: " << fileName << std::endl;
     }
-    return HockeyPlayer();
- }
-
-std::vector<HockeyPlayer>& getPlayerStorage() {
-    return playerStorage;
+        return HockeyPlayer();
     }
 
-void writeToFile() {
+    void writeToFile() {
     std::ofstream file(fileName);
     if (file.is_open()) {
         for (auto& player : playerStorage) {
-            file << player.getId() << ' '
-                 << player.getName() << ' '
-                 << player.getJersey() << ' '
-                 << player.getTeamName() << '\n';
+            file << player << '\n';
         }
         file.close();
         std::cout << "Players written to file: " << fileName << std::endl;
     } else {
         std::cout << "Unable to open file: " << fileName << std::endl;
+        }
     }
-}
 
-private: 
+    private: 
 
-std::vector<HockeyPlayer> playerStorage;
-std::string fileName;
+    std::vector<HockeyPlayer> playerStorage;
+    std::string fileName;
 
 };
 #endif // __HOCKEY_H

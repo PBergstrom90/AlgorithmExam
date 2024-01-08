@@ -14,7 +14,7 @@ void HockeyChacher(){
     LRUCache cache(10, std::vector<HockeyPlayer>());
     FileStorage fileStorage("hockeyplayers.txt");
 
-    // Add players to the file, with random jersey- and team numbers.
+    // Add players to the file, with random jersey- and teamnumbers.
     for (int i = 1; i <= amountOfPlayers; i++) {
         std::uniform_int_distribution<int> jerseyDistribution(1, 100);
         std::uniform_int_distribution<int> teamDistribution(1, 50);

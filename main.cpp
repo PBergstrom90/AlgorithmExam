@@ -62,10 +62,10 @@ int main()
 	AdjustFuelConsumption(sensorData);
 
 	// Hospital - QUEUE
-	// HospitalSim();
+	HospitalSim();
 
 	// ATM - MAP
-	// AtmSim();
+	AtmSim();
 
 	// HockeyPlayer - LRU-CACHE
 	HockeyChacher();
@@ -104,7 +104,6 @@ void CheckTopSpeed(std::vector<SensorData> &v){
         std::cout << "No entries above max speed (99.9 km/h) found." << std::endl;
     }
 }
-
 
 void AdjustFuelConsumption(std::vector<SensorData> &v){
 	bool success = false;
