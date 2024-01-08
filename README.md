@@ -12,7 +12,6 @@ The program utilizes a SensorData class to store information about sensor readin
 ## Prerequisites
 - C++ Compiler
 - Standard Template Library (STL)
-- iostream, string, vector, algorithm, ctime, and cstdlib headers
 
 ## Functions
 
