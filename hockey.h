@@ -7,7 +7,7 @@
 #include <algorithm>
 
 class HockeyPlayer {
-    public:
+public:
     HockeyPlayer(int id, std::string name, int jersey, std::string teamName) : id(id), name(name), jersey(jersey), teamName(teamName) {
         }
     HockeyPlayer() : id(0), name("NULL"), jersey(0), teamName("NULL") {
@@ -25,7 +25,7 @@ class HockeyPlayer {
         return teamName;
     }
 
-     // For reading from file.
+    // For reading from file.
     friend std::istream& operator>>(std::istream& is, HockeyPlayer& player) {
         is >> player.id >> player.name >> player.jersey >> player.teamName;
         return is;
@@ -37,7 +37,7 @@ class HockeyPlayer {
         return os;
     }
 
-    private:
+private:
         int id;
         std::string name;
         int jersey;
@@ -45,9 +45,9 @@ class HockeyPlayer {
 };
 
 class LRUCache {
-    public:
-        LRUCache(int capacity, std::vector<HockeyPlayer> cache) : capacity(capacity), cache(cache){
-        };
+public:
+    LRUCache(int capacity, std::vector<HockeyPlayer> cache) : capacity(capacity), cache(cache){
+    };
 
     bool isPlayerInCache(int playerId) {
         return std::any_of(cache.begin(), cache.end(), [playerId](HockeyPlayer& player) {
@@ -98,14 +98,14 @@ class LRUCache {
         std::cout << "Hockeyplayer added to cache: " << player.getId() << std::endl;
     }
 }
-    private:
-        int capacity;
-        std::vector<HockeyPlayer> cache;
+private:
+    int capacity;
+    std::vector<HockeyPlayer> cache;
 };
 
 class FileStorage {
-    public:
-        FileStorage(std::string fileName) : fileName(fileName) {}
+public:
+    FileStorage(std::string fileName) : fileName(fileName) {}
 
     void addPlayer(const HockeyPlayer& player) {
         playerStorage.push_back(player);
@@ -141,8 +141,7 @@ class FileStorage {
         }
     }
 
-    private: 
-
+private: 
     std::vector<HockeyPlayer> playerStorage;
     std::string fileName;
 
